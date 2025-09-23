@@ -1,7 +1,7 @@
 package controller.itemController;
 
 import javafx.collections.ObservableList;
-import model.Customer;
+
 import model.Item;
 
 public interface ItemManagementService {
@@ -13,5 +13,7 @@ public interface ItemManagementService {
     }
 
     void UpdateItem (Item item);
+
+    ObservableList<Item> getAllItem();
 
 }

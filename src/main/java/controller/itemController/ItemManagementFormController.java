@@ -141,31 +141,12 @@ public class ItemManagementFormController implements Initializable {
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         colQtyOnHand.setCellValueFactory(new PropertyValueFactory<>("qtyOnHand"));
 
-        tblItem.setItems(item);
-
         item.clear();
 
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ITEM");
-            ResultSet resultSet = preparedStatement.executeQuery();
+        ItemManagementService itemManagementService = new ItemManagementController();
+        item=itemManagementService.getAllItem();
 
-            while (resultSet.next()){
-                Item i = new Item(
-                resultSet.getString("itemCode"),
-                resultSet.getString("description"),
-                resultSet.getString("packSize"),
-                resultSet.getDouble("unitPrice"),
-                resultSet.getInt("qtyOnHand")
-                );
-                 item.add(i);
-
-            }
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        tblItem.setItems(item);
 
     }
 

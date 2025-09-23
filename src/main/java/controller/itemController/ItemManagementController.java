@@ -1,13 +1,11 @@
 package controller.itemController;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
 import model.Item;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ItemManagementController implements ItemManagementService{
     @Override
@@ -78,5 +76,31 @@ public class ItemManagementController implements ItemManagementService{
         }
     }
 
+    @Override
+    public ObservableList<Item> getAllItem() {
+        ObservableList<Item> item= FXCollections.observableArrayList();
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ITEM");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                Item i = new Item(
+                        resultSet.getString("itemCode"),
+                        resultSet.getString("description"),
+                        resultSet.getString("packSize"),
+                        resultSet.getDouble("unitPrice"),
+                        resultSet.getInt("qtyOnHand")
+                );
+                item.add(i);
+
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return item;
+    }
 
 }
