@@ -28,4 +28,27 @@ public class ItemManagementController implements ItemManagementService{
         }
     }
 
+    @Override
+    public void DeleteItem(String itemCode) {
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+
+            String sql = "DELETE FROM item WHERE ItemCode=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, itemCode);
+
+            System.out.println("Trying to delete item with code: " + itemCode);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Item deleted successfully.");
+            } else {
+                System.out.println("No item found with ID: " + itemCode);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

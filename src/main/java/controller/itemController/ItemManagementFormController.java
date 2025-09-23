@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,11 +17,13 @@ import javafx.stage.Stage;
 import model.Item;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
 import static java.time.LocalDate.parse;
 
-public class ItemManagementFormController {
+public class ItemManagementFormController implements Initializable {
 
     public Button btnOrderManagement;
     @FXML
@@ -89,25 +92,21 @@ public class ItemManagementFormController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
 
-        String itemCode = txtItemCode.getText();
+        String itemCode = txtItemCode.getText().trim();
         if (!itemCode.isEmpty()) {
-            try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
-                String sql = "DELETE FROM customer WHERE itemCode=?";
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ps.setString(1, itemCode);
-
-                int rowsAffected;
-                rowsAffected = ps.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Item deleted successfully.");
-                } else {
-                    System.out.println("No item found with ID: " + itemCode);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            btnViewOnAction(event);
+            ItemManagementService itemManagementService = new ItemManagementController();
+            itemManagementService.DeleteItem(itemCode);
+            btnViewOnAction(event); // refresh table
+        } else {
+            System.out.println("⚠ No item selected to delete!");
         }
+
+
+//        if (!itemCode.isEmpty()) {
+//            ItemManagementService itemManagementService = new ItemManagementController();
+//            itemManagementService.DeleteItem(itemCode);
+//            btnViewOnAction(event);
+//        }
     }
 
     @FXML
@@ -201,5 +200,14 @@ public class ItemManagementFormController {
         Stage stage = new Stage();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/order_management_form.fxml"))));
         stage.show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        tblItem.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                txtItemCode.setText(newVal.getItemCode());
+            }
+        });
     }
 }
