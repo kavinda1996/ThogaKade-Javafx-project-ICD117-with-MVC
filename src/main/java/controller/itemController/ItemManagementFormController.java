@@ -96,17 +96,12 @@ public class ItemManagementFormController implements Initializable {
         if (!itemCode.isEmpty()) {
             ItemManagementService itemManagementService = new ItemManagementController();
             itemManagementService.DeleteItem(itemCode);
-            btnViewOnAction(event); // refresh table
+            btnViewOnAction(event);
         } else {
             System.out.println("⚠ No item selected to delete!");
         }
 
 
-//        if (!itemCode.isEmpty()) {
-//            ItemManagementService itemManagementService = new ItemManagementController();
-//            itemManagementService.DeleteItem(itemCode);
-//            btnViewOnAction(event);
-//        }
     }
 
     @FXML
@@ -122,35 +117,13 @@ public class ItemManagementFormController implements Initializable {
                 selectedItem.setUnitPrice(Double.parseDouble(txtUnitPrice.getText()));
                 selectedItem.setQtyOnHand(Integer.parseInt(txtQtyOnHand.getText()));
 
-                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
-                    String sql = "UPDATE item SET itemCode=?, description=?, packSize=?, unitPrice=?, qtyOnHand=? WHERE itemCode=?";
-                    PreparedStatement ps = connection.prepareStatement(sql);
+                ItemManagementService itemManagementService= new ItemManagementController();
+                itemManagementService.UpdateItem(selectedItem);
 
-                    ps.setString(1, selectedItem.getItemCode());
-                    ps.setString(2, selectedItem.getDescription());
-                    ps.setString(3, selectedItem.getPackSize());
-                    ps.setDouble(4, selectedItem.getUnitPrice());
-                    ps.setInt(5, selectedItem.getQtyOnHand());
-
-
-                    ps.setString(6, selectedItem.getItemCode());
-
-                    int rowsAffected = ps.executeUpdate();
-                    if (rowsAffected > 0) {
-                        System.out.println("Item updated successfully.");
-                    } else {
-                        System.out.println("No item found with ID: " + selectedItem.getItemCode());
-                    }
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
-                
                 btnViewOnAction(event);
 
             } else {
-                new Alert(Alert.AlertType.ERROR, "No item selected!").show();
+                new Alert(Alert.AlertType.ERROR, "⚠ No item selected!").show();
             }
         } catch (Exception e) {
             e.printStackTrace();

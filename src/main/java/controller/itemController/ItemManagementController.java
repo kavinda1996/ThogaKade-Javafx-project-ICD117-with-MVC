@@ -2,6 +2,7 @@ package controller.itemController;
 
 import javafx.collections.ObservableList;
 import model.Customer;
+import model.Item;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,6 +46,33 @@ public class ItemManagementController implements ItemManagementService{
             } else {
                 System.out.println("No item found with ID: " + itemCode);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public void UpdateItem(Item item) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+            String sql = "UPDATE item SET ItemCode=?, description=?, packSize=?, unitPrice=?, qtyOnHand=? WHERE ItemCode=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+
+            ps.setString(1, item.getItemCode());
+            ps.setString(2, item.getDescription());
+            ps.setString(3, item.getPackSize());
+            ps.setDouble(4, item.getUnitPrice());
+            ps.setInt(5, item.getQtyOnHand());
+            ps.setString(6, item.getItemCode());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Item updated successfully.");
+            } else {
+                System.out.println("No item found with ID: " + item.getItemCode());
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

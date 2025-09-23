@@ -2,6 +2,7 @@ package controller.itemController;
 
 import javafx.collections.ObservableList;
 import model.Customer;
+import model.Item;
 
 public interface ItemManagementService {
 
@@ -10,5 +11,7 @@ public interface ItemManagementService {
     default void DeleteItem(String itemCode) {
 
     }
+
+    void UpdateItem (Item item);
 
 }
