@@ -91,4 +91,41 @@ public class CustomerManagementController implements CustomerManagementService {
         }
     }
 
+    @Override
+    public ObservableList<Customer> getAllCustomer() {
+
+        ObservableList<Customer> customer = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+            String SQL = "SELECT * FROM customer";
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Timestamp ts = resultSet.getTimestamp("dob");
+                LocalDate dob = (ts != null) ? LocalDate.from(ts.toLocalDateTime()) : null;
+
+                Customer c = new Customer(
+                        resultSet.getString("custID"),
+                        resultSet.getString("custTitle"),
+                        resultSet.getString("custName"),
+                        dob,
+                        resultSet.getDouble("salary"),
+                        resultSet.getString("custAddress"),
+                        resultSet.getString("city"),
+                        resultSet.getString("province"),
+                        resultSet.getString("postalCode")
+                );
+
+                customer.add(c);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return customer;
+    }
+
+
 }

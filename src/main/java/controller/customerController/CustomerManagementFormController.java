@@ -201,33 +201,9 @@ public class CustomerManagementFormController implements Initializable {
     private void viewCustomer() {
         customer.clear();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
-            String SQL = "SELECT * FROM customer";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        CustomerManagementService customerManagementService = new CustomerManagementController();
+        customer=customerManagementService.getAllCustomer();
 
-            while (resultSet.next()) {
-                Timestamp ts = resultSet.getTimestamp("dob");
-                LocalDate dob = (ts != null) ? LocalDate.from(ts.toLocalDateTime()) : null;
-
-                Customer c = new Customer(
-                        resultSet.getString("custID"),
-                        resultSet.getString("custTitle"),
-                        resultSet.getString("custName"),
-                        dob,
-                        resultSet.getDouble("salary"),
-                        resultSet.getString("custAddress"),
-                        resultSet.getString("city"),
-                        resultSet.getString("province"),
-                        resultSet.getString("postalCode")
-                );
-
-                customer.add(c);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void viewCustomerByID(String custID) {
@@ -277,9 +253,9 @@ public class CustomerManagementFormController implements Initializable {
         colProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
         colPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
-        tblCustomer.setItems(customer);
-
         viewCustomer();
+
+        tblCustomer.setItems(customer);
 
         tblCustomer.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
