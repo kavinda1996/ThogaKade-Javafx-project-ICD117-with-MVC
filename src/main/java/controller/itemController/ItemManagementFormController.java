@@ -79,21 +79,8 @@ public class ItemManagementFormController {
         Double unitPrice = Double.valueOf(txtUnitPrice.getText());
         Integer qtyOnHand = Integer.valueOf(txtQtyOnHand.getText());
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ITEM VALUES(?,?,?,?,?)")) {
-
-           
-            preparedStatement.setObject(1, itemCode);
-            preparedStatement.setObject(2, description);
-            preparedStatement.setObject(3, packSize);
-            preparedStatement.setObject(4, unitPrice);
-            preparedStatement.setObject(5, qtyOnHand);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        ItemManagementService itemManagementService = new ItemManagementController();
+        itemManagementService.AddItem(itemCode,description,packSize,unitPrice,qtyOnHand);
 
 
         btnViewOnAction(event);
