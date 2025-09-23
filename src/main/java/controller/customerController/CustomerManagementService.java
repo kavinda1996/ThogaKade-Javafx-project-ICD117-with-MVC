@@ -15,4 +15,6 @@ public interface CustomerManagementService {
     void UpdateCustomer(Customer customer);
 
     ObservableList<Customer> getAllCustomer();
+
+    ObservableList<Customer> getAllCustomerById(String custID);
 }
