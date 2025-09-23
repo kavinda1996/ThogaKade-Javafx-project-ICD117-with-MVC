@@ -63,4 +63,32 @@ public class CustomerManagementController implements CustomerManagementService {
         }
     }
 
+    @Override
+    public void UpdateCustomer(Customer customer) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+            String sql = "UPDATE customer SET custTitle=?, custName=?, dob=?, salary=?, custAddress=?, city=?, province=?, postalCode=? WHERE custID=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setString(1, customer.getCustTitle());
+            ps.setString(2, customer.getCustName());
+            ps.setTimestamp(3, Timestamp.valueOf(customer.getDOB().atStartOfDay()));
+            ps.setDouble(4, customer.getSalary());
+            ps.setString(5, customer.getCustAddress());
+            ps.setString(6, customer.getCity());
+            ps.setString(7, customer.getProvince());
+            ps.setString(8, customer.getPostalCode());
+            ps.setString(9, customer.getCustID());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Customer updated successfully.");
+            } else {
+                System.out.println("No customer found with ID: " + customer.getCustID());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

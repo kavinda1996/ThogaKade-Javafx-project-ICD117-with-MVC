@@ -12,5 +12,5 @@ public interface CustomerManagementService {
 
     void DeleteCustomer(String custID);
 
-
+    void UpdateCustomer(Customer customer);
 }
