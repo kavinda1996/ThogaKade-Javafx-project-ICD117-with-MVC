@@ -115,7 +115,7 @@ public class CustomerManagementFormController implements Initializable {
 
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DOB = LocalDate.parse(txtDOB.getText(), formatter);
+            DOB = parse(txtDOB.getText(), formatter);
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format! Please use yyyy-MM-dd");
             new Alert(Alert.AlertType.INFORMATION, "Invalid date format! Please use yyyy-MM-dd").show();
@@ -141,24 +141,13 @@ public class CustomerManagementFormController implements Initializable {
         if (!custID.isEmpty()) {
             deleteCustomer(custID);
             viewCustomer();
+
         }
     }
 
     private void deleteCustomer(String custID) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
-            String sql = "DELETE FROM customer WHERE custID=?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, custID);
-
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Customer deleted successfully.");
-            } else {
-                System.out.println("No customer found with ID: " + custID);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        CustomerManagementService customerManagementService = new CustomerManagementController();
+        customerManagementService.DeleteCustomer(custID);
     }
 
 

@@ -1,16 +1,17 @@
 package controller.customerController;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Customer;
+
+import java.sql.*;
 import java.time.LocalDate;
 
-public class CustomerManagementController implements CustomerManagementService{
+public class CustomerManagementController implements CustomerManagementService {
 
 
     @Override
-    public void AddCustomer(String custID, String custTitle, String custName, LocalDate DOB, double salary, String custAddress, String city, String province, String postalCode){
+    public void AddCustomer(String custID, String custTitle, String custName, LocalDate DOB, double salary, String custAddress, String city, String province, String postalCode) {
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
 
@@ -44,5 +45,22 @@ public class CustomerManagementController implements CustomerManagementService{
 
     }
 
+    @Override
+    public void DeleteCustomer(String custID) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+            String sql = "DELETE FROM customer WHERE custID=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, custID);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Customer deleted successfully.");
+            } else {
+                System.out.println("No customer found with ID: " + custID);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
