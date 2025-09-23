@@ -7,5 +7,4 @@ public interface ItemManagementService {
 
     void AddItem(String itemCode,String description,String packSize,Double unitPrice,Integer qtyOnHand);
 
-
 }

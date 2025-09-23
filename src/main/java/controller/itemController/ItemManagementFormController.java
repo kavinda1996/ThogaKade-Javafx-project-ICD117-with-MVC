@@ -82,7 +82,6 @@ public class ItemManagementFormController {
         ItemManagementService itemManagementService = new ItemManagementController();
         itemManagementService.AddItem(itemCode,description,packSize,unitPrice,qtyOnHand);
 
-
         btnViewOnAction(event);
     }
 
