@@ -15,15 +15,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
-import java.sql.Timestamp;
+
 
 import java.net.URL;
-import java.sql.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
 import java.util.ResourceBundle;
 
 import static java.time.LocalDate.parse;
@@ -31,6 +32,10 @@ import static javafx.fxml.FXMLLoader.load;
 
 
 public class CustomerManagementFormController implements Initializable {
+
+    CustomerManagementService customerManagementService = new CustomerManagementController();
+
+    ObservableList<Customer> customer = FXCollections.observableArrayList();
 
     public Button btnItemManagement;
 
@@ -103,36 +108,50 @@ public class CustomerManagementFormController implements Initializable {
     @FXML
     private JFXTextField txtcustID;
 
-    ObservableList<Customer> customer = FXCollections.observableArrayList();
+
+    private DateFormatter dateFormatter;
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        String custID = txtcustID.getText();
-        String custTitle = txtCustTitle.getText();
-        String custName = txtCustName.getText();
+//        String custID = txtcustID.getText();
+//        String custTitle = txtCustTitle.getText();
+//        String custName = txtCustName.getText();
+//
+//        LocalDate DOB = null;
+//
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            DOB = parse(txtDOB.getText(), formatter);
+//        } catch (DateTimeParseException e) {
+//            System.out.println("Invalid date format! Please use yyyy-MM-dd");
+//            new Alert(Alert.AlertType.INFORMATION, "Invalid date format! Please use yyyy-MM-dd").show();
+//        }
+//
+//        double salary = Double.parseDouble(txtSalary.getText());
+//        String custAddress = txtCustAddress.getText();
+//        String city = txtCity.getText();
+//        String province = txtProvince.getText();
+//        String postalCode = txtPostalCode.getText();
 
-        LocalDate DOB = null;
+        Customer customer1 = new Customer(
+                txtcustID.getText(),
+                txtCustTitle.getText(),
+                txtCustName.getText(),
+                parse(txtDOB.getText()),
+                Double.parseDouble(txtSalary.getText()),
+                txtCustAddress.getText(),
+                txtCity.getText(),
+                txtProvince.getText(),
+                txtPostalCode.getText()
+        );
 
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DOB = parse(txtDOB.getText(), formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format! Please use yyyy-MM-dd");
-            new Alert(Alert.AlertType.INFORMATION, "Invalid date format! Please use yyyy-MM-dd").show();
-        }
 
-        double salary = Double.parseDouble(txtSalary.getText());
-        String custAddress = txtCustAddress.getText();
-        String city = txtCity.getText();
-        String province = txtProvince.getText();
-        String postalCode = txtPostalCode.getText();
-
-    CustomerManagementService customerManagementService;
-        customerManagementService = new CustomerManagementController();
-        customerManagementService.AddCustomer(custID,custTitle,custName,DOB,salary,custAddress,city,province,postalCode);
+        customerManagementService.AddCustomer(customer1);
 
         viewCustomer();
+
     }
+
 
 
     @FXML
@@ -146,7 +165,7 @@ public class CustomerManagementFormController implements Initializable {
     }
 
     private void deleteCustomer(String custID) {
-        CustomerManagementService customerManagementService = new CustomerManagementController();
+
         customerManagementService.DeleteCustomer(custID);
     }
 
@@ -187,7 +206,7 @@ public class CustomerManagementFormController implements Initializable {
 
 
     private void updateCustomer(Customer customer) {
-        CustomerManagementService customerManagementService= new CustomerManagementController();
+
         customerManagementService.UpdateCustomer(customer);
     }
 
@@ -201,15 +220,16 @@ public class CustomerManagementFormController implements Initializable {
     private void viewCustomer() {
         customer.clear();
 
-        CustomerManagementService customerManagementService = new CustomerManagementController();
         customer=customerManagementService.getAllCustomer();
+
+        tblCustomer.setItems(customer);
 
     }
 
     private void viewCustomerByID(String custID) {
 
         customer.clear();
-        CustomerManagementService customerManagementService = new CustomerManagementController();
+
         customer= customerManagementService.getAllCustomerById(custID);
         ObservableList<Customer> result = customerManagementService.getAllCustomerById(custID);
         tblCustomer.setItems(result);
@@ -228,9 +248,7 @@ public class CustomerManagementFormController implements Initializable {
         colProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
         colPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
-        viewCustomer();
 
-        tblCustomer.setItems(customer);
 
         tblCustomer.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -247,6 +265,10 @@ public class CustomerManagementFormController implements Initializable {
                     }
                 }
         );
+
+        viewCustomer();
+
+
     }
 
     public void btnItemManagementOnAction(ActionEvent actionEvent) throws IOException {

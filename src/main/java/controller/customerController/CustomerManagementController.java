@@ -11,28 +11,28 @@ public class CustomerManagementController implements CustomerManagementService {
 
 
     @Override
-    public void AddCustomer(String custID, String custTitle, String custName, LocalDate DOB, double salary, String custAddress, String city, String province, String postalCode) {
+    public void AddCustomer(Customer customer1) {
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
 
-            preparedStatement.setString(1, custID);
-            preparedStatement.setString(2, custTitle);
-            preparedStatement.setString(3, custName);
+            preparedStatement.setString(1, customer1.getCustID());
+            preparedStatement.setString(2, customer1.getCustTitle());
+            preparedStatement.setString(3, customer1.getCustName());
 
-            if (DOB != null) {
-                preparedStatement.setDate(4, java.sql.Date.valueOf(DOB));
+            if (customer1.getDOB() != null) {
+                preparedStatement.setDate(4, java.sql.Date.valueOf(customer1.getDOB()));
             } else {
                 preparedStatement.setNull(4, java.sql.Types.DATE);
             }
 
-            preparedStatement.setDouble(5, salary);
-            preparedStatement.setString(6, custAddress);
-            preparedStatement.setString(7, city);
-            preparedStatement.setString(8, province);
-            preparedStatement.setString(9, postalCode);
+            preparedStatement.setDouble(5, customer1.getSalary());
+            preparedStatement.setString(6, customer1.getCustAddress());
+            preparedStatement.setString(7, customer1.getCity());
+            preparedStatement.setString(8, customer1.getProvince());
+            preparedStatement.setString(9, customer1.getPostalCode());
 
             int i = preparedStatement.executeUpdate();
             if (i > 0) {
