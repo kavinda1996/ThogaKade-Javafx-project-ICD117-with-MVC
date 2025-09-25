@@ -33,7 +33,7 @@
       <Button fx:id="btnDelete" layoutX="539.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" textFill="#2c3ad7" />
       <Button fx:id="btnView" layoutX="625.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnViewOnAction" text="View" textFill="#2a2df4" />
       <Button fx:id="btnUpdate" layoutX="695.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" textFill="#2131e1" />
-      <Button fx:id="btnOrderManagement" layoutX="468.0" layoutY="469.0" mnemonicParsing="false" onAction="#btnOrderManagementOnAction" prefHeight="26.0" prefWidth="284.0" text="Order Management" textFill="#137def">
+      <Button fx:id="btnOrderManagement" layoutX="468.0" layoutY="469.0" mnemonicParsing="false" onAction="#btnOrderManagementOnAction" prefHeight="26.0" prefWidth="284.0" text="Orders Management" textFill="#137def">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

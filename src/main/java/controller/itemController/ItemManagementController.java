@@ -3,30 +3,30 @@ package controller.itemController;
 import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Customer;
+
 import model.Item;
 
 import java.sql.*;
 
 public class ItemManagementController implements ItemManagementService{
     @Override
-    public void AddItem(String itemCode, String description, String packSize, Double unitPrice, Integer qtyOnHand) {
+    public void AddItem(Item item1) {
         try{ Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ITEM VALUES(?,?,?,?,?)") ;
 
 
-            preparedStatement.setObject(1, itemCode);
-            preparedStatement.setObject(2, description);
-            preparedStatement.setObject(3, packSize);
-            preparedStatement.setObject(4, unitPrice);
-            preparedStatement.setObject(5, qtyOnHand);
+            preparedStatement.setObject(1, item1.getItemCode());
+            preparedStatement.setObject(2, item1.getDescription());
+            preparedStatement.setObject(3, item1.getPackSize());
+            preparedStatement.setObject(4, item1.getUnitPrice());
+            preparedStatement.setObject(5, item1.getQtyOnHand());
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        getAllItem();
+
     }
 
     @Override

@@ -16,12 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Item;
 
+
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+
 import java.util.ResourceBundle;
 
-import static java.time.LocalDate.parse;
+
 
 public class ItemManagementFormController implements Initializable {
 
@@ -76,14 +77,17 @@ public class ItemManagementFormController implements Initializable {
     @FXML
     void btnAddOnAction(ActionEvent event) {
 
-        String itemCode = txtItemCode.getText();
-        String description = txtDescription.getText();
-        String packSize = txtPackSize.getText();
-        Double unitPrice = Double.valueOf(txtUnitPrice.getText());
-        Integer qtyOnHand = Integer.valueOf(txtQtyOnHand.getText());
+
+        Item item1=new Item(
+                txtItemCode.getText(),
+                txtDescription.getText(),
+                txtPackSize.getText(),
+                Double.valueOf(txtUnitPrice.getText()),
+                Integer.valueOf(txtQtyOnHand.getText())
+        );
 
         ItemManagementService itemManagementService = new ItemManagementController();
-        itemManagementService.AddItem(itemCode,description,packSize,unitPrice,qtyOnHand);
+        itemManagementService.AddItem(item1);
 
         btnViewOnAction(event);
     }
@@ -152,7 +156,7 @@ public class ItemManagementFormController implements Initializable {
 
     public void btnOrderManagementOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/order_management_form.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/orders_management_form.fxml"))));
         stage.show();
     }
 

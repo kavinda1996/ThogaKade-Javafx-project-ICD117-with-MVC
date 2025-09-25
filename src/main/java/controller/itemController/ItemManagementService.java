@@ -6,7 +6,7 @@ import model.Item;
 
 public interface ItemManagementService {
 
-    void AddItem(String itemCode,String description,String packSize,Double unitPrice,Integer qtyOnHand);
+    void AddItem(Item item1);
 
     default void DeleteItem(String itemCode) {
 

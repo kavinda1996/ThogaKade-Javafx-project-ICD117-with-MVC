@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="558.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ordersController.OrdersManagementFormController">
    <children>
-      <TableView fx:id="tblItems" layoutX="67.0" layoutY="100.0" prefHeight="271.0" prefWidth="666.0">
+      <TableView fx:id="tblOrders" layoutX="67.0" layoutY="100.0" prefHeight="271.0" prefWidth="666.0">
          <columns>
             <TableColumn fx:id="colOrderID" prefWidth="218.40003204345703" text="orderID" />
             <TableColumn fx:id="colOrderDate" prefWidth="233.59994506835938" text="orderDate" />
@@ -22,9 +22,9 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtItemCode" layoutX="83.0" layoutY="416.0" opacity="0.75" promptText="orderID" />
-      <JFXTextField fx:id="txtDescription" layoutX="83.0" layoutY="455.0" opacity="0.75" promptText="orderDate" />
-      <JFXTextField fx:id="txtPackSize" layoutX="83.0" layoutY="496.0" opacity="0.75" promptText="custID" />
+      <JFXTextField fx:id="txtOrderID" layoutX="83.0" layoutY="416.0" opacity="0.75" promptText="orderID" />
+      <JFXTextField fx:id="txtOrderDate" layoutX="83.0" layoutY="455.0" opacity="0.75" promptText="orderDate" />
+      <JFXTextField fx:id="txtCustID" layoutX="83.0" layoutY="496.0" opacity="0.75" promptText="custID" />
       <Button fx:id="btnAdd" layoutX="361.0" layoutY="416.0" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add" textFill="#2f38df" />
       <Button fx:id="btnDelete" layoutX="461.0" layoutY="416.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" textFill="#2c3ad7" />
       <Button fx:id="btnView" layoutX="578.0" layoutY="416.0" mnemonicParsing="false" onAction="#btnViewOnAction" text="View" textFill="#2a2df4" />

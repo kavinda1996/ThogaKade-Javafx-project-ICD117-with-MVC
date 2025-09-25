@@ -1,4 +1,4 @@
 package controller.ordersController;
 
-public class OrdersManagementController {
+public class OrdersManagementController implements OrdersManagementService{
 }
