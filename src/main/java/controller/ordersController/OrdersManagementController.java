@@ -45,15 +45,15 @@ public class OrdersManagementController implements OrdersManagementService{
     }
 
     @Override
-    public void deleteOrders(String custID, String orderID) {
+    public void deleteOrders( String orderID) {
 
         try { Connection connection = DBConnection.getInstance().getConnection();
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "DELETE FROM orders WHERE orderID = ? AND custID =?");
+                    "DELETE FROM orders WHERE orderID = ? ");
 
             preparedStatement.setString(1, orderID);
-            preparedStatement.setString(2,custID);
+
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -102,8 +102,10 @@ public class OrdersManagementController implements OrdersManagementService{
                 orders.add(orders1);
             }
 
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            System.out.println("table not found");
         }
         return orders;
     }

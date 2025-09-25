@@ -80,10 +80,9 @@ public class OrdersManagementFormController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String orderID = txtOrderID.getText();
-        String custID = txtCustID.getText();
 
-
-       ordersManagementService.deleteOrders(orderID,custID);
+       ordersManagementService.deleteOrders(orderID);
+       orders.clear();
         btnViewOnAction(event);
     }
 
@@ -115,9 +114,7 @@ public class OrdersManagementFormController {
         void btnViewOnAction (ActionEvent event){
 
             orders.clear();
-
-
-            ordersManagementService.getAllOrders();
+            orders=ordersManagementService.getAllOrders();
 
             colCustID.setCellValueFactory(new PropertyValueFactory<>("custID"));
             colOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));

@@ -116,7 +116,7 @@ public class OrderDetailManagementFormController {
         orderDetail.clear();
 
 
-       orderDetailManagementService.getAllOrderDetail();
+       orderDetail=orderDetailManagementService.getAllOrderDetail();
 
         colOrderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));

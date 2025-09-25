@@ -7,7 +7,7 @@ public interface OrdersManagementService {
 
     public void addOrders(Orders orders);
 
-    public void deleteOrders (String custID, String orderID);
+    public void deleteOrders (String orderID);
 
     public void updateOrders (Orders orders);
 
