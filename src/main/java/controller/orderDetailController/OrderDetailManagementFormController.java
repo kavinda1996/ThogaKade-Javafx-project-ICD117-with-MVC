@@ -59,11 +59,53 @@ public class OrderDetailManagementFormController {
     @FXML
     private JFXTextField txtItemCode;
 
-//    ObservableList<OrderDetail> orderDetail  = FXCollections.observableArrayList();
+  ObservableList<OrderDetail> orderDetail  = FXCollections.observableArrayList();
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
+        String orderID = txtOrderID.getText();
+        String itemCode = txtItemCode.getText();
+        String orderQTY = txtOrderQTY.getText();
+        Integer discount= Integer.valueOf(txtDiscount.getText());
 
+
+        System.out.println("OrderID: " + orderID);
+        System.out.println("ItemCode: " + itemCode);
+        System.out.println("OrderQTY: " + orderQTY);
+        System.out.println("Discount: " + discount);
+
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+
+            // check customer exists
+            PreparedStatement check = connection.prepareStatement(
+                    "SELECT 1 FROM orderDetail WHERE orderID=?");
+            check.setString(1, orderID);
+            ResultSet rs = check.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("❌ Item " + itemCode + " does not exist!");
+                new Alert(Alert.AlertType.ERROR, "Item " + itemCode + " not found!").show();
+                return;
+            }
+
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO orderDetail (orderID, itemCode, orderQTY,discount) VALUES (?, ?, ?, ?)");
+
+            ps.setString(1, orderID);
+            ps.setString(2,itemCode);
+            ps.setString(3, orderQTY);
+            ps.setString(4, String.valueOf(discount));
+
+            int result = ps.executeUpdate();
+            System.out.println("✅ Rows Inserted: " + result);
+        }
+        catch (SQLException e) {
+            System.out.println("❌ SQL Error:");
+            e.printStackTrace();
+        }
+
+        btnViewOnAction(event);
     }
 
     @FXML
@@ -80,7 +122,7 @@ public class OrderDetailManagementFormController {
 
     @FXML
     void btnViewOnAction (ActionEvent event){
-        ObservableList<OrderDetail> orderDetail  = FXCollections.observableArrayList();
+
         orderDetail.clear();
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234");
