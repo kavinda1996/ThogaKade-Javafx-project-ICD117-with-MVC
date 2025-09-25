@@ -77,7 +77,7 @@ public class OrderDetailManagementFormController {
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
 
-            // check customer exists
+
             PreparedStatement check = connection.prepareStatement(
                     "SELECT 1 FROM orderDetail WHERE orderID=?");
             check.setString(1, orderID);
@@ -110,8 +110,33 @@ public class OrderDetailManagementFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String orderID = txtOrderID.getText();
+        String itemCode = txtItemCode.getText();
 
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+
+            PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM orderDetail WHERE orderID = ? AND itemCode = ?");
+
+            ps.setString(1, orderID);
+            ps.setString(2, itemCode);
+
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                System.out.println("✅ Deleted Successfully!");
+            } else {
+                System.out.println("⚠ No matching record found!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        btnViewOnAction(event);
     }
+
+
 
 
     @FXML
