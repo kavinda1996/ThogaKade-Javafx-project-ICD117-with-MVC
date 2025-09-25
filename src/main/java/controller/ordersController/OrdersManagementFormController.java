@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -61,26 +62,63 @@ public class OrdersManagementFormController {
     @FXML
     void btnAddOnAction(ActionEvent event) {
         String orderID = txtOrderID.getText();
-        LocalDate orderDate = LocalDate.parse(txtOrderDate.getText());
+        String dateText = txtOrderDate.getText();
         String custID = txtCustID.getText();
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ORDERS VAlUES(?,?,?)");
-            preparedStatement.setObject(1,orderID);
-            preparedStatement.setObject(2,orderDate);
-            preparedStatement.setObject(3,custID);
 
-            preparedStatement.executeUpdate();
+        System.out.println("OrderID: " + orderID);
+        System.out.println("OrderDate Text: " + dateText);
+        System.out.println("CustomerID: " + custID);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+
+            // check customer exists
+            PreparedStatement check = connection.prepareStatement(
+                    "SELECT 1 FROM customer WHERE CustID=?");
+            check.setString(1, custID);
+            ResultSet rs = check.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("❌ Customer " + custID + " does not exist!");
+                new Alert(Alert.AlertType.ERROR, "Customer " + custID + " not found!").show();
+                return;
+            }
+
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO orders (orderID, orderDate, custID) VALUES (?, ?, ?)");
+
+            ps.setString(1, orderID);
+            ps.setDate(2, java.sql.Date.valueOf(LocalDate.parse(dateText)));
+            ps.setString(3, custID);
+
+            int result = ps.executeUpdate();
+            System.out.println("✅ Rows Inserted: " + result);
         }
+        catch (SQLException e) {
+            System.out.println("❌ SQL Error:");
+            e.printStackTrace();
+        }
+
         btnViewOnAction(event);
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String orderID = txtOrderID.getText();
 
+        try {Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/thogakade", "root", "1234");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM orders WHERE orderID = ?");
+
+            preparedStatement.setString(1, orderID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        btnViewOnAction(event);
     }
 
     @FXML
@@ -116,9 +154,9 @@ public class OrdersManagementFormController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        colCustID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+        colCustID.setCellValueFactory(new PropertyValueFactory<>("custID"));
         colOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-        colOrderID.setCellValueFactory(new PropertyValueFactory<>("custID"));
+        colOrderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
 
 
         tblOrders.setItems(orders);
