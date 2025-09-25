@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Orders {
+public class Orders implements CharSequence {
     private String orderID;
     private LocalDate orderDate;
     private String custID;
