@@ -113,25 +113,7 @@ public class CustomerManagementFormController implements Initializable {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-//        String custID = txtcustID.getText();
-//        String custTitle = txtCustTitle.getText();
-//        String custName = txtCustName.getText();
-//
-//        LocalDate DOB = null;
-//
-//        try {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            DOB = parse(txtDOB.getText(), formatter);
-//        } catch (DateTimeParseException e) {
-//            System.out.println("Invalid date format! Please use yyyy-MM-dd");
-//            new Alert(Alert.AlertType.INFORMATION, "Invalid date format! Please use yyyy-MM-dd").show();
-//        }
-//
-//        double salary = Double.parseDouble(txtSalary.getText());
-//        String custAddress = txtCustAddress.getText();
-//        String city = txtCity.getText();
-//        String province = txtProvince.getText();
-//        String postalCode = txtPostalCode.getText();
+
 
         Customer customer1 = new Customer(
                 txtcustID.getText(),

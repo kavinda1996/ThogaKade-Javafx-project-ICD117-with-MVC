@@ -1,5 +1,6 @@
 package controller.customerController;
 
+import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
@@ -12,8 +13,8 @@ public class CustomerManagementController implements CustomerManagementService {
 
     @Override
     public void AddCustomer(Customer customer1) {
-        try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+        try{
+            Connection connection = DBConnection.getInstance().getConnection();
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
@@ -47,9 +48,10 @@ public class CustomerManagementController implements CustomerManagementService {
 
     @Override
     public void DeleteCustomer(String custID) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+        try{ Connection connection = DBConnection.getInstance().getConnection();
             String sql = "DELETE FROM customer WHERE custID=?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps;
+            ps = connection.prepareStatement(sql);
             ps.setString(1, custID);
 
             int rowsAffected = ps.executeUpdate();
@@ -65,7 +67,7 @@ public class CustomerManagementController implements CustomerManagementService {
 
     @Override
     public void UpdateCustomer(Customer customer) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+        try{ Connection connection = DBConnection.getInstance().getConnection();
             String sql = "UPDATE customer SET custTitle=?, custName=?, dob=?, salary=?, custAddress=?, city=?, province=?, postalCode=? WHERE custID=?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -96,7 +98,7 @@ public class CustomerManagementController implements CustomerManagementService {
 
         ObservableList<Customer> customer = FXCollections.observableArrayList();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234")) {
+        try{ Connection connection = DBConnection.getInstance().getConnection();
             String SQL = "SELECT * FROM customer";
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -131,7 +133,7 @@ public class CustomerManagementController implements CustomerManagementService {
     public ObservableList<Customer> getAllCustomerById(String custID) {
         ObservableList<Customer> customer = FXCollections.observableArrayList();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234");
+            Connection connection = DBConnection.getInstance().getConnection();
 
             String SQL = "SELECT * FROM customer WHERE custID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
