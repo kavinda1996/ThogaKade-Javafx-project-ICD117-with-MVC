@@ -1,21 +1,34 @@
 package controller.orderDetailController;
 
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.OrderDetail;
 
 import java.io.IOException;
+import java.sql.*;
+
 
 public class OrderDetailManagementFormController {
 
     @FXML
     public Button btnBacktoCustomerManagement;
+    @FXML
+    public JFXTextField txtOrderID;
+    @FXML
+    public JFXTextField txtOrderQTY;
+    @FXML
+    public JFXTextField txtDiscount;
     @FXML
     private Button btnAdd;
 
@@ -41,38 +54,58 @@ public class OrderDetailManagementFormController {
     private TableColumn<?, ?> colOrderQTY;
 
     @FXML
-    private TableView<?> tblOrderDetail;
-
-    @FXML
-    private JFXTextField txtDescription;
-
-    @FXML
-    private JFXTextField txtDescription1;
+    private TableView<OrderDetail> tblOrderDetail;
 
     @FXML
     private JFXTextField txtItemCode;
 
-    @FXML
-    private JFXTextField txtPackSize;
+//    ObservableList<OrderDetail> orderDetail  = FXCollections.observableArrayList();
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
 
     }
 
-
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
 
     }
 
+
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+
 
     }
 
     @FXML
-    void btnViewOnAction(ActionEvent event) {
+    void btnViewOnAction (ActionEvent event){
+        ObservableList<OrderDetail> orderDetail  = FXCollections.observableArrayList();
+        orderDetail.clear();
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM orderDetail");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orders1 = new OrderDetail(
+                        resultSet.getString("orderID"),
+                        resultSet.getString("itemCode"),
+                        resultSet.getInt("orderQTY"),
+                        resultSet.getInt("discount")
+                );
+                orderDetail.add(orders1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        colOrderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colOrderQTY.setCellValueFactory(new PropertyValueFactory<>("orderQTY"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+
+
+        tblOrderDetail.setItems(orderDetail);
 
     }
 

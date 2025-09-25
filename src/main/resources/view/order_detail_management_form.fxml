@@ -23,9 +23,9 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtItemCode" layoutX="53.0" layoutY="439.0" opacity="0.75" promptText="orderID" />
-      <JFXTextField fx:id="txtDescription" layoutX="53.0" layoutY="484.0" opacity="0.75" promptText="itemCode" />
-      <JFXTextField fx:id="txtPackSize" layoutX="217.0" layoutY="439.0" opacity="0.75" promptText="orderQTY" />
+      <JFXTextField fx:id="txtOrderID" layoutX="53.0" layoutY="439.0" opacity="0.75" promptText="orderID" />
+      <JFXTextField fx:id="txtItemCode" layoutX="53.0" layoutY="484.0" opacity="0.75" promptText="itemCode" />
+      <JFXTextField fx:id="txtOrderQTY" layoutX="217.0" layoutY="439.0" opacity="0.75" promptText="orderQTY" />
       <Button fx:id="btnAdd" layoutX="423.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add" textFill="#2f38df" />
       <Button fx:id="btnDelete" layoutX="504.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" textFill="#2c3ad7" />
       <Button fx:id="btnView" layoutX="602.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnViewOnAction" text="View" textFill="#2a2df4" />
@@ -35,6 +35,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <JFXTextField fx:id="txtDescription1" layoutX="217.0" layoutY="484.0" opacity="0.75" promptText="discount" />
+      <JFXTextField fx:id="txtDiscount" layoutX="217.0" layoutY="484.0" opacity="0.75" promptText="discount" />
    </children>
 </AnchorPane>
