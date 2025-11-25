@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="646.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemFormController">
+    <children>
+        <Label alignment="CENTER" layoutX="194.0" layoutY="22.0" prefHeight="88.0" prefWidth="269.0" text="Item Form">
+            <font>
+                <Font name="Dubai Medium" size="48.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tblViewItem" layoutX="27.0" layoutY="127.0" prefHeight="394.0" prefWidth="620.0" style="-fx-background-color: #E5E5E5;">
+            <columns>
+                <TableColumn fx:id="colItemCode" prefWidth="97.0" text="ItemCode" />
+                <TableColumn fx:id="colDescription" prefWidth="203.0" text="Description" />
+                <TableColumn fx:id="colPackSize" prefWidth="103.0" text="PackSize" />
+                <TableColumn fx:id="colUnitPrice" prefWidth="103.5" text="UnitPrice" />
+                <TableColumn fx:id="colQtyOnHand" prefWidth="112.5" text="QtyOnHand" />
+            </columns>
+        </TableView>
+        <TextField fx:id="txtItemCode" layoutX="759.0" layoutY="147.0" promptText="ItemCode" />
+        <TextField fx:id="txtDescription" layoutX="759.0" layoutY="197.0" prefHeight="25.0" prefWidth="213.0" promptText="Description" />
+        <TextField fx:id="txtPackSize" layoutX="759.0" layoutY="243.0" promptText="PackSize" />
+        <TextField fx:id="txtUnitPrice" layoutX="759.0" layoutY="291.0" promptText="UnitPrice" />
+        <TextField fx:id="txtQtyOnHand" layoutX="759.0" layoutY="335.0" promptText="QtyOnHand" />
+        <JFXButton fx:id="btnAdd" layoutX="655.0" layoutY="435.0" onAction="#btnAddOnAction" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #a0eb0a;" text="ADD" />
+        <JFXButton fx:id="btnDelete" layoutX="843.0" layoutY="435.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #ef476f;" text="Delete" />
+        <JFXButton fx:id="btnSearch" layoutX="945.0" layoutY="435.0" onAction="#btnSearchOnAction" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #ff9b85;" text="Search" />
+        <JFXButton fx:id="btnUpdate" layoutX="744.0" layoutY="435.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #595cff;" text="Update" textFill="#d8ddef" />
+        <JFXButton fx:id="btnReload" layoutX="551.0" layoutY="543.0" onAction="#btnReloadOnAction" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #cbeef3;" text="Reload" />
+        <Label alignment="CENTER_RIGHT" layoutX="666.0" layoutY="151.0" prefHeight="17.0" prefWidth="78.0" text="ItemCode">
+            <font>
+                <Font name="Dubai Medium" size="14.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="666.0" layoutY="201.0" prefHeight="17.0" prefWidth="78.0" text="Description :">
+            <font>
+                <Font name="Dubai Medium" size="14.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="666.0" layoutY="247.0" prefHeight="17.0" prefWidth="78.0" text="PackSize : ">
+            <font>
+                <Font name="Dubai Medium" size="14.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="666.0" layoutY="295.0" prefHeight="17.0" prefWidth="78.0" text="UnitPrice : ">
+            <font>
+                <Font name="Dubai Medium" size="14.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="643.0" layoutY="339.0" prefHeight="25.0" prefWidth="101.0" text="QtyOnHand : ">
+            <font>
+                <Font name="Dubai Medium" size="14.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
