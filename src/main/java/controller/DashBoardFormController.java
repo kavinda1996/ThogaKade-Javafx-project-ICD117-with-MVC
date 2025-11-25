@@ -1,37 +1,59 @@
 package controller;
 
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
-public class DashBoardFormController {
+public class DashboardFormController {
 
-    @FXML
-    private Button btnLogin;
+    Stage itemStage = new Stage();
 
     @FXML
-    private JFXTextField txtPassword;
+    private JFXButton btnCustomerManagement;
 
     @FXML
-    private JFXTextField txtUserName;
+    private JFXButton btnItemManagement;
 
     @FXML
-    void btnLoginOnAction(ActionEvent event) throws IOException {
+    private JFXButton btnOrderDetailsManagament;
 
-        if (Objects.equals(txtPassword.getText(), "1234") && Objects.equals(txtUserName.getText(), "kavinda")) {
-            Stage stage = new Stage();
+    @FXML
+    private JFXButton btnOrderManagement;
 
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/customer_management_form.fxml"))));
-            stage.show();
-        }else new Alert(Alert.AlertType.WARNING, "Invalid Username or Password. Try again!!").show();
+    @FXML
+    void btnCustomerOnAction(ActionEvent event) {
+
     }
 
+    @FXML
+    void btnItemOnAction(ActionEvent event) {
+        try {
+            itemStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/item.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        itemStage.setResizable(false);
+        itemStage.show();
+    }
+
+    @FXML
+    void btnOrderOnAction(ActionEvent event) {
+
+    }
+
+    Stage placeOrderStage = new Stage();
+    @FXML
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) {
+        try {
+            placeOrderStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/PlaceOrder.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        placeOrderStage.show();
+    }
 }
