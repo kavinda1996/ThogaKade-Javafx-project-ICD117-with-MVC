@@ -8,17 +8,15 @@ public class DBConnection {
     private static DBConnection instance;
     private Connection connection;
 
-    private DBConnection () throws SQLException {
-        connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "1234");
+    private DBConnection() throws SQLException {
+        connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
     }
 
     public static DBConnection getInstance() throws SQLException {
-        if (instance == null){
-            instance=new DBConnection();
-        }
-        return instance;
+        return null==instance?instance=new DBConnection():instance;
     }
-    public Connection getConnection(){
+
+    public Connection getConnection() {
         return connection;
     }
 }
